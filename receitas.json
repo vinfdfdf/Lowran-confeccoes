@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "title": "Bolo de Chocolate",
+        "category": "sobremesas",
+        "difficulty": "easy",
+        "time": 45,
+        "calories": 320,
+        "ingredients": "Farinha, açúcar, ovos...",
+        "instructions": "Misture tudo...",
+        "image": "url-da-imagem.jpg"
+    },
+    // + 499.999 entradas...
+]

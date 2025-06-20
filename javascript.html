@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MillionárioBR - IA de Receitas Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ffd700;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-menu a:hover {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #cccccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: rgba(255, 215, 0, 0.05);
+            padding: 80px 0;
+            border-radius: 50px;
+            margin: 50px 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .search-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+
+        .search-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            color: #cccccc;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 25px;
+            font-size: 1.1rem;
+            border: 2px solid #ffd700;
+            border-radius: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #ffed4e;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-input::placeholder {
+            color: #888888;
+        }
+
+        .search-btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000000;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Counter Display */
+        .search-counter {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            padding: 60px 0;
+            display: none;
+        }
+
+        .payment-card {
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 20px 0;
+            border: 2px solid #ffd700;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .pricing-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .pricing-card {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid #ffd700;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .pricing-card.featured {
+            border-color: #ff6b35;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 20px 0;
+        }
+
+        .price.featured {
+            color: #ff6b35;
+        }
+
+        .buy-btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .buy-btn.featured {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .upload-area {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed #ffd700;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: #ffed4e;
+        }
+
+        .upload-area.dragover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffed4e;
+            transform: scale(1.02);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .verify-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        /* Results Section */
+        .results-section {
+            padding: 60px 0;
+            display: none;
+        }
+
+        .recipe-card {
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 25px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .recipe-title {
+            font-size: 1.8rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .recipe-description {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .recipe-ingredients {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .recipe-ingredients h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .recipe-steps {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .recipe-steps h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(0, 0, 0, 0.8) 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px 30px;
+            border-radius: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 2px solid #ffd700;
+        }
+
+        .footer-content {
+            color: #cccccc;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 215, 0, 0.3);
+            border-left: 4px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .success-message {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
+        .error-message {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Novos estilos de segurança */
+        .bloqueado {
+            background-color: #ff000033 !important;
+            border: 2px solid red !important;
+            cursor: not-allowed !important;
+        }
+        
+        .aviso-seguranca {
+            background-color: #ffd70022;
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .search-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+
+            .pricing-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">MillionárioBR</div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#buscar">Buscar</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <h1>IA de Receitas Inteligente</h1>
+                <p>Transforme os ingredientes da sua cozinha em pratos incríveis com nossa inteligência artificial especializada em culinária</p>
+            </div>
+        </section>
+
+        <section class="search-section" id="buscar">
+            <div class="search-container">
+                <h2 class="search-title">O que você tem na geladeira?</h2>
+                <p class="search-subtitle">Digite os ingredientes que você tem em casa e nossa IA criará receitas personalizadas para você</p>
+                
+                <div class="search-counter" id="searchCounter">
+                    🎁 Primeiras 3 buscas GRÁTIS! Experimente agora
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" class="search-input" id="ingredientsInput" placeholder="Ex: tomate, queijo, frango, arroz, cebola...">
+                </div>
+                
+                <button class="search-btn" id="searchBtn">🔍 Criar Receitas</button>
+                
+                <div class="loading" id="loadingDiv">
+                    <div class="spinner"></div>
+                    <p>Nossa IA está criando receitas personalizadas para você...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="payment-section" id="payment">
+            <div class="container">
+                <div class="payment-card">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
+                    <h3 style="color: #ffd700; font-size: 2rem; margin-bottom: 20px;">Acesso Premium Necessário</h3>
+                    <p style="color: #cccccc; font-size: 1.2rem; margin-bottom: 30px;">
+                        Você já usou suas 3 buscas gratuitas! Para continuar criando receitas ilimitadas, escolha um dos planos abaixo:
+                    </p>
+                    
+                    <div class="pricing-options">
+                        <div class="pricing-card">
+                            <h4 style="color: #ffd700; font-size: 1.3rem; margin-bottom: 15px;">💰 Plano Básico</h4>
+                            <div class="price">R$ 15,99</div>
+                            <div style="color: #cccccc; margin-bottom: 20px;">
+                                ✅ Receitas ilimitadas<br>
+                                ✅ Acesso por 7 dias<br>
+                                ✅ Suporte básico
+                            </div>
+                            <button class="buy-btn">
+                                💳 COMPRAR AGORA
+                            </button>
+                        </div>
+                        
+                        <div class="pricing-card featured">
+                            <div class="featured-badge">🔥 MAIS POPULAR</div>
+                            <h4 style="color: #ff6b35; font-size: 1.3rem; margin-bottom: 15px;">🚀 Plano Premium</h4>
+                            <div class="price featured">R$ 47,99</div>
+                            <div style="color: #cccccc; margin-bottom: 20px;">
+                                ✅ Receitas ilimitadas<br>
+                                ✅ Acesso por 30 dias<br>
+                                ✅ Receitas exclusivas<br>
+                                ✅ Suporte prioritário<br>
+                                ✅ Dicas de chef
+                            </div>
+                            <button class="buy-btn featured">
+                                🎯 MELHOR OFERTA
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 15px; margin-top: 30px;">
+                        <div class="aviso-seguranca">
+                            <strong>⚠️ VERIFICAÇÃO SEGURA:</strong> O comprovante deve conter claramente:
+                            <ul>
+                                <li>Nome do vendedor: <strong>Vinícius Passos</strong></li>
+                                <li>Descrição: <strong>IA para receitas</strong></li>
+                                <li>Valor exato: <strong>R$ 15,99</strong> ou <strong>R$ 47,99</strong></li>
+                                <li>Formato: <strong>JPG, PNG ou PDF</strong> (máx. 5MB)</li>
+                            </ul>
+                        </div>
+                        
+                        <h4 style="color: #ffd700; margin-bottom: 20px;">📎 Já efetuou o pagamento?</h4>
+                        <p style="color: #cccccc; margin-bottom: 20px;">
+                            Envie seu comprovante de pagamento para liberar o acesso:
+                        </p>
+                        
+                        <div class="upload-area" id="uploadArea">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📄</div>
+                            <p style="color: #ffd700; font-size: 1.1rem; margin-bottom: 10px;">Clique aqui para enviar o comprovante</p>
+                            <p style="color: #cccccc; font-size: 0.9rem;">
+                                Formatos aceitos: JPG, PNG, PDF<br>
+                                Tamanho máximo: 5MB
+                            </p>
+                            <div id="fileName" style="color: #ffd700; margin-top: 15px; font-weight: bold;"></div>
+                        </div>
+                        
+                        <input type="file" id="fileInput" class="file-input" accept=".jpg,.jpeg,.png,.pdf">
+                        
+                        <button class="verify-btn" id="verifyBtn">
+                            ✅ Verificar Comprovante
+                        </button>
+                        
+                        <div class="success-message" id="successMessage">
+                            🎉 Comprovante aprovado! Acesso liberado com sucesso!
+                        </div>
+                        
+                        <div class="error-message" id="errorMessage">
+                            ❌ Comprovante inválido. Verifique se contém as informações corretas.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section" id="results">
+            <div class="container">
+                <div id="recipesContainer"></div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 style="text-align: center; font-size: 2.5rem; color: #ffd700; margin-bottom: 20px;">Por que escolher o MillionárioBR?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3 class="feature-title">IA Avançada</h3>
+                        <p class="feature-description">Nossa inteligência artificial analiza seus ingredientes e cria receitas únicas e saborosas especialmente para você.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">Resultados Instantâneos</h3>
+                        <p class="feature-description">Receba sugestões de receitas em segundos, com instruções detalhadas e tempo de preparo.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">100% Personalizado</h3>
+                        <p class="feature-description">Cada receita é adaptada aos ingredientes que você realmente tem em casa, evitando desperdícios.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">MillionárioBR</div>
+                <p>&copy; 2025 MillionárioBR. Todos os direitos reservados.</p>
+                <p>Transformando ingredientes em experiências culinárias únicas.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configurações do sistema
+        const CONFIG = {
+            BUSCAS_GRATIS: 3,
+            TEMPO_BLOQUEIO: 30 // minutos
+        };
+
+        // Estado do sistema
+        let estado = {
+            buscasRealizadas: localStorage.getItem('buscasRealizadas') ? parseInt(localStorage.getItem('buscasRealizadas')) : 0,
+            acessoLiberado: localStorage.getItem('acessoLiberado') === 'true',
+            tentativasInvalidas: 0,
+            tempoBloqueio: 0
+        };
+
+        // Elementos da interface
+        const elementos = {
+            searchCounter: document.getElementById('searchCounter'),
+            ingredientsInput: document.getElementById('ingredientsInput'),
+            searchBtn: document.getElementById('searchBtn'),
+            loadingDiv: document.getElementById('loadingDiv'),
+            payment: document.getElementById('payment'),
+            recipesContainer: document.getElementById('recipesContainer'),
+            results: document.getElementById('results'),
+            fileInput: document.getElementById('fileInput'),
+            verifyBtn: document.getElementById('verifyBtn'),
+            successMessage: document.getElementById('successMessage'),
+            errorMessage: document.getElementById('errorMessage'),
+            fileName: document.getElementById('fileName'),
+            uploadArea: document.getElementById('uploadArea'),
+            buyBtns: document.querySelectorAll('.buy-btn')
+        };
+
+        // Banco de receitas
+        const receitasDisponiveis = [
+            {
+                title: "Frango Grelhado com Legumes",
+                description: "Um prato saudável e saboroso que combina proteína e vegetais frescos.",
+                ingredients: ["Peito de frango (500g)", "Tomate (2 unidades)", "Cebola (1 unidade)", "Azeite de oliva", "Sal e pimenta do reino", "Alho (2 dentes)"],
+                steps: [
+                    "Tempere o frango com sal, pimenta e alho amassado por 30 minutos",
+                    "Aqueça uma frigideira antiaderente com um fio de azeite",
+                    "Grelhe o frango por 8-10 minutos de cada lado até dourar",
+                    "Corte os tomates em fatias e a cebola em rodelas",
+                    "Na mesma frigideira, refogue os legumes por 5 minutos",
+                    "Sirva o frango com os legumes refogados"
+                ]
+            },
+            {
+                title: "Risotto de Queijo Cremoso",
+                description: "Um risotto cremoso e reconfortante, perfeito para jantares especiais.",
+                ingredients: ["Arroz arbóreo (300g)", "Queijo parmesão ralado (100g)", "Cebola média (1 unidade)", "Caldo de legumes (1L)", "Vinho branco seco (100ml)", "Manteiga (50g)"],
+                steps: [
+                    "Refogue a cebola picada na manteiga até ficar transparente",
+                    "Adicione o arroz e doure por 2-3 minutos mexendo sempre",
+                    "Acrescente o vinho branco e deixe evaporar",
+                    "Adicione o caldo quente uma concha de cada vez",
+                    "Cozinhe por 18-20 minutos mexendo constantemente",
+                    "Finalize com queijo parmesão e sirva imediatamente"
+                ]
+            },
+            {
+                title: "Salada Tropical Refrescante",
+                description: "Uma salada leve e nutritiva, ideal para dias quentes.",
+                ingredients: ["Tomate cereja (200g)", "Queijo branco em cubos (150g)", "Cebola roxa (1/2 unidade)", "Azeite extra virgem", "Suco de limão", "Manjericão fresco"],
+                steps: [
+                    "Corte os tomates cereja ao meio",
+                    "Corte o queijo branco em cubos pequenos",
+                    "Fatie a cebola roxa bem fininha",
+                    "Misture todos os ingredientes em uma tigela",
+                    "Tempere com azeite, limão, sal e pimenta",
+                    "Decore com folhas de manjericão e sirva gelado"
+                ]
+            },
+            {
+                title: "Omelete Especial de Queijo",
+                description: "Omelete cremosa e saborosa, perfeita para qualquer refeição.",
+                ingredients: ["Ovos (4 unidades)", "Queijo muçarela ralado (100g)", "Cebola pequena (1/2 unidade)", "Tomate (1 unidade)", "Sal e pimenta", "Azeite ou manteiga"],
+                steps: [
+                    "Bata os ovos com sal e pimenta em uma tigela",
+                    "Pique a cebola e o tomate em cubos pequenos",
+                    "Aqueça uma frigideira com um pouco de azeite",
+                    "Refogue rapidamente a cebola e o tomate",
+                    "Despeje os ovos batidos na frigideira",
+                    "Adicione o queijo e dobre a omelete ao meio"
+                ]
+            },
+            {
+                title: "Macarrão ao Alho e Óleo Gourmet",
+                description: "Versão sofisticada do clássico aglio e olio italiano.",
+                ingredients: ["Macarrão espaguete (400g)", "Alho (6 dentes)", "Azeite extra virgem (100ml)", "Pimenta calabresa", "Queijo parmesão", "Salsinha fresca"],
+                steps: [
+                    "Cozinhe o macarrão em água fervente com sal",
+                    "Enquanto isso, corte o alho em lâminas finas",
+                    "Aqueça o azeite em uma frigideira grande",
+                    "Doure o alho até ficar levemente dourado",
+                    "Adicione um pouco da água do cozimento",
+                    "Escorra o macarrão e misture com o alho",
+                    "Finalize com pimenta, queijo e salsinha"
+                ]
+            }
+        ];
+
+        // Funções principais
+        function atualizarContador() {
+            const restantes = CONFIG.BUSCAS_GRATIS - estado.buscasRealizadas;
+            
+            if (estado.acessoLiberado) {
+                elementos.searchCounter.innerHTML = "✅ ACESSO PREMIUM LIBERADO";
+                elementos.searchCounter.style.backgroundColor = "#28a74533";
+            } else if (estado.buscasRealizadas >= CONFIG.BUSCAS_GRATIS) {
+                elementos.searchCounter.innerHTML = "🔒 LIMITE DE BUSCAS ATINGIDO";
+                elementos.searchCounter.style.backgroundColor = "#dc354533";
+            } else {
+                elementos.searchCounter.innerHTML = `🎁 ${restantes} BUSCA${restantes > 1 ? 'S' : ''} GRÁTIS RESTANTE${restantes > 1 ? 'S' : ''}`;
+                elementos.searchCounter.style.backgroundColor = "#ffd70033";
+            }
+        }
+
+        function verificarBusca() {
+            // Verificar se está bloqueado
+            if (new Date().getTime() < estado.tempoBloqueio) {
+                const minutos = Math.ceil((estado.tempoBloqueio - new Date().getTime()) / 60000);
+                alert(`⚠️ Sistema temporariamente bloqueado!\nTente novamente em ${minutos} minuto(s).`);
+                return;
+            }
+
+            const input = elementos.ingredientsInput.value.trim();
+            
+            if (!input) {
+                alert("Por favor, digite os ingredientes que você tem disponível");
+                return;
+            }
+
+            // Verificar acesso
+            if (estado.buscasRealizadas >= CONFIG.BUSCAS_GRATIS && !estado.acessoLiberado) {
+                elementos.payment.style.display = 'block';
+                window.location.href = '#payment';
+                
+                // Remover qualquer receita exibida anteriormente
+                elementos.results.style.display = 'none';
+                elementos.recipesContainer.innerHTML = '';
+                
+                return;
+            }
+
+            // Processar busca
+            elementos.loadingDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                elementos.loadingDiv.style.display = 'none';
+                
+                if (!estado.acessoLiberado) {
+                    estado.buscasRealizadas++;
+                    localStorage.setItem('buscasRealizadas', estado.buscasRealizadas);
+                }
+                
+                // Só mostra receitas se tiver acesso liberado ou ainda tiver buscas gratuitas
+                if (estado.acessoLiberado || estado.buscasRealizadas <= CONFIG.BUSCAS_GRATIS) {
+                    mostrarReceitas();
+                    elementos.results.style.display = 'block';
+                    window.location.href = '#results';
+                }
+                
+                atualizarContador();
+            }, 3000);
+        }
+
+        function mostrarReceitas() {
+            elementos.recipesContainer.innerHTML = '';
+            
+            // Mostrar 3 receitas aleatórias
+            const receitasAleatorias = [...receitasDisponiveis].sort(() => 0.5 - Math.random()).slice(0, 3);
+            
+            receitasAleatorias.forEach(receita => {
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                
+                card.innerHTML = `
+                    <h3 class="recipe-title">${receita.title}</h3>
+                    <p class="recipe-description">${receita.description}</p>
+                    
+                    <div class="recipe-ingredients">
+                        <h4>Ingredientes:</h4>
+                        <ul>
+                            ${receita.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="recipe-steps">
+                        <h4>Modo de Preparo:</h4>
+                        <ol>
+                            ${receita.steps.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                    </div>
+                `;
+                
+                elementos.recipesContainer.appendChild(card);
+            });
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            
+            if (file) {
+                // Verificar tamanho
+                if (file.size > 5 * 1024 * 1024) {
+                    mostrarMensagemErro("Arquivo muito grande (máximo 5MB)");
+                    return;
+                }
+                
+                // Verificar tipo
+                const tiposValidos = ['image/jpeg', 'image/png', 'application/pdf'];
+                if (!tiposValidos.includes(file.type)) {
+                    mostrarMensagemErro("Formato inválido! Use JPG, PNG ou PDF");
+                    return;
+                }
+                
+                elementos.fileName.textContent = `Arquivo selecionado: ${file.name}`;
+                elementos.verifyBtn.style.display = 'inline-block';
+            }
+        }
+
+        function verificarComprovante() {
+            // Verificar se está bloqueado
+            if (new Date().getTime() < estado.tempoBloqueio) {
+                const minutos = Math.ceil((estado.tempoBloqueio - new Date().getTime()) / 60000);
+                mostrarMensagemErro(`Sistema bloqueado. Tente novamente em ${minutos} minuto(s).`);
+                return;
+            }
+
+            if (!elementos.fileInput.files[0]) {
+                mostrarMensagemErro("Nenhum comprovante selecionado!");
+                return;
+            }
+
+            // Simular verificação
+            elementos.verifyBtn.disabled = true;
+            elementos.verifyBtn.textContent = "VERIFICANDO...";
+            
+            setTimeout(() => {
+                // Simulação: 80% de chance de sucesso
+                const aprovado = Math.random() < 0.8;
+                
+                if (aprovado) {
+                    estado.acessoLiberado = true;
+                    localStorage.setItem('acessoLiberado', 'true');
+                    mostrarMensagemSucesso("Comprovante aprovado! Acesso liberado.");
+                    
+                    // Resetar contadores
+                    estado.buscasRealizadas = 0;
+                    estado.tentativasInvalidas = 0;
+                    localStorage.setItem('buscasRealizadas', 0);
+                    
+                    // Atualizar interface
+                    elementos.verifyBtn.style.display = 'none';
+                    elementos.fileInput.value = '';
+                    elementos.fileName.textContent = '';
+                    atualizarContador();
+                    
+                    // Esconder seção de pagamento após 3 segundos
+                    setTimeout(() => {
+                        elementos.payment.style.display = 'none';
+                    }, 3000);
+                } else {
+                    estado.tentativasInvalidas++;
+                    mostrarMensagemErro("Comprovante inválido. Verifique as informações.");
+                    
+                    if (estado.tentativasInvalidas >= 3) {
+                        estado.tempoBloqueio = new Date().getTime() + (CONFIG.TEMPO_BLOQUEIO * 60000);
+                        mostrarMensagemErro(`🚫 MUITAS TENTATIVAS! Sistema bloqueado por ${CONFIG.TEMPO_BLOQUEIO} minutos.`);
+                        elementos.verifyBtn.style.display = 'none';
+                        elementos.fileInput.disabled = true;
+                        elementos.uploadArea.classList.add('bloqueado');
+                    }
+                }
+                
+                elementos.verifyBtn.disabled = false;
+                elementos.verifyBtn.textContent = "✅ Verificar Comprovante";
+            }, 2000);
+        }
+
+        function mostrarMensagemSucesso(mensagem) {
+            elementos.successMessage.textContent = mensagem;
+            elementos.successMessage.style.display = 'block';
+            elementos.errorMessage.style.display = 'none';
+        }
+
+        function mostrarMensagemErro(mensagem) {
+            elementos.errorMessage.textContent = mensagem;
+            elementos.errorMessage.style.display = 'block';
+            elementos.successMessage.style.display = 'none';
+        }
+
+        // Eventos
+        elementos.searchBtn.addEventListener('click', verificarBusca);
+        elementos.ingredientsInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') verificarBusca();
+        });
+
+        elementos.uploadArea.addEventListener('click', () => {
+            elementos.fileInput.click();
+        });
+
+        elementos.fileInput.addEventListener('change', handleFileSelect);
+        elementos.verifyBtn.addEventListener('click', verificarComprovante);
+
+        elementos.buyBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert("Redirecionando para a página de pagamento...");
+            });
+        });
+
+        // Drag and drop para upload
+        elementos.uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            elementos.uploadArea.classList.add('dragover');
+        });
+
+        elementos.uploadArea.addEventListener('dragleave', () => {
+            elementos.uploadArea.classList.remove('dragover');
+        });
+
+        elementos.uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            elementos.uploadArea.classList.remove('dragover');
+            elementos.fileInput.files = e.dataTransfer.files;
+            handleFileSelect({ target: elementos.fileInput });
+        });
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarContador();
+            
+            if (estado.acessoLiberado) {
+                elementos.payment.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
